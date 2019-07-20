@@ -10,7 +10,8 @@ const client = new Client({
     username: 'Username',
     password: 'Password',
     chats: [
-        'dev'
+        'dev',
+        'doru'
     ]
 }); 
 
