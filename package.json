@@ -1,0 +1,30 @@
+{
+  "name": "wikichat",
+  "version": "0.0.1",
+  "description": "A socket wrapper for Wikia's Special:Chat extension",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "node tests/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dorumin/WikiChat.git"
+  },
+  "keywords": [
+    "wikia",
+    "fandom",
+    "chat",
+    "socket.io"
+  ],
+  "author": "Dorumin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dorumin/WikiChat/issues"
+  },
+  "homepage": "https://github.com/Dorumin/WikiChat#readme",
+  "dependencies": {
+    "got": "^9.3.2",
+    "socket.io-client": "^2.2.0",
+    "tough-cookie": "^2.5.0"
+  }
+}
