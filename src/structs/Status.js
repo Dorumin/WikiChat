@@ -4,7 +4,7 @@ class Status extends EventEmitter {
     constructor(message, status) {
         super();
         this.message = message;
-        this.status = status;
+        this.state = status;
     }
 }
 

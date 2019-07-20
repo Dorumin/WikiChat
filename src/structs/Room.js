@@ -36,10 +36,7 @@ class Room extends EventEmitter {
     }
 
     async send(text) {
-        console.log('Called send');
-        console.log(this.socket._ready);
         await this.socket._ready;
-        console.log(this.chat.client.user);
         this.socket.send(
             new Message({
                 text,

@@ -11,6 +11,7 @@ class Socket extends EventEmitter {
         this.room = room;
         
         // Connection variables
+        this.firstConnect = true;
         this.connected = false;
         this.socket = null;
         this.wikiId = null;
@@ -19,8 +20,8 @@ class Socket extends EventEmitter {
         this.host = null;
         this.key = null;
 
-        this._connecting = null;
-        this._ready = null;
+        this._connecting = this.resolvable();
+        this._ready = this.resolvable();
 
         // For handling leave timeout offsets
         this.partTimeouts = {};
@@ -55,8 +56,12 @@ class Socket extends EventEmitter {
         this.host = this.room.chat.host;
         this.key = this.room.chat.key;
 
-        this._connecting = this.resolvable();
-        this._ready = this.resolvable();
+        if (this.firstConnect) {
+            this.firstConnect = false;
+        } else {
+            this._connecting = this.resolvable();
+            this._ready = this.resolvable();
+        }
 
         this.socket = this.createSocket();
 
