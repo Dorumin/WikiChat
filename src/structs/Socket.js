@@ -138,7 +138,7 @@ class Socket extends EventEmitter {
 
         chats.models.forEach(model => {
             const { attrs } = model,
-            message = new Message(attrs, this.room.users.get(attrs.name));
+            message = new Message(attrs, this.room, this.room.users.get(attrs.name));
             this.room.messages.set(message.id, message);
         });
 
