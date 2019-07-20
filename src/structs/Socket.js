@@ -38,11 +38,9 @@ class Socket extends EventEmitter {
 
     async send(data) {
         await this._connecting;
-        console.log('sending');
 
         if (typeof data.xport == 'function') {
             this.socket.send(data.xport());
-            console.log(data.xport());
         } else {
             this.socket.send(data);
         }
@@ -90,7 +88,6 @@ class Socket extends EventEmitter {
     }
 
     onConnect() {
-        console.log('Connected');
         this.connected = true;
         this._connecting.resolve(this);
         this.send(new InitQuery());
@@ -112,8 +109,6 @@ class Socket extends EventEmitter {
             console.log('Unable to parse message', message);
             return;
         }
-
-        console.log('Event', event);
 
         if (method) {
             method.call(this, data);
@@ -158,8 +153,6 @@ class Socket extends EventEmitter {
         if (blockedByUsers.models.length) {
             console.log('Blocked by users exists');
         }
-
-        console.log('Ready socket', this.room.isPrivate);
 
         this._ready.resolve();
     }
@@ -213,6 +206,14 @@ class Socket extends EventEmitter {
         }
         const message = new Message(attrs, this.room, user);
         this.emit('message', message);
+    }
+
+    on_kick({ attrs }) {
+        console.log('kick', attrs);
+    }
+
+    on_ban({ attrs }) {
+        console.log('ban', attrs);
     }
 
     on_updateUser({ attrs }, obj) {

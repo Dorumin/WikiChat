@@ -45,8 +45,6 @@ class User extends EventEmitter {
         if (compare) {
             if (compare(obj[prop], this[selfProp])) {
                 delete obj[prop];
-            } else {
-                console.log('Failed compare', obj[prop], this[selfProp]);
             }
         } else if (obj[prop] == this[selfProp]) {
             delete obj[prop];

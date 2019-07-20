@@ -11,7 +11,6 @@ class Room extends EventEmitter {
 
         this.roomId = id || chat.roomId;
         this.isPrivate = id !== null && id !== chat.roomId;
-        console.log(id, chat.roomId, this.isPrivate);
 
         this.users = new Collection();
         this.messages = new Collection();
@@ -21,7 +20,6 @@ class Room extends EventEmitter {
     }
 
     async connect() {
-        console.log('Called connect');
         await this.socket.connect();
     }
 
