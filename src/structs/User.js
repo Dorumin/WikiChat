@@ -68,22 +68,32 @@ class User extends EventEmitter {
         delete attrs.privateRoomId;
         delete attrs.active;
 
-        if (Object.getOwnPropertyNames(attrs).length === 0) return;
+        const props = Object.getOwnPropertyNames(attrs);
+        let i = props.length;
+        if (i === 0) return;
         console.log(attrs);
 
-        if (attrs.statusMessage) {
-            this.status.message = attrs.statusMessage;
+        while (i--) {
+            const prop = props[i],
+            val = attrs[prop];
+
+            switch (prop) {
+                case 'statusMessage':
+                    this.status.message = val;
+                    break;
+                case 'statusState':
+                    this.status.state = val;
+                    break;
+                case 'avatarSrc':
+                    console.log('Updated avatar');
+                    this.avatar = this.parseAvatar(attrs.avatarSrc);
+                    break;
+                default:
+                    console.log('Uncaught user attribute change');
+            }
         }
 
-        if (attrs.statusState) {
-            this.status.state = attrs.statusState;
-        }
-
-        if (attrs.avatarSrc) {
-            console.log('Updated avatar');
-        }
-
-        this.emit('updateUser', this);
+        this.emit('updateUser', this, attrs);
     }
 }
 

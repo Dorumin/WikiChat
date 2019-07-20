@@ -222,8 +222,8 @@ class Socket extends EventEmitter {
             console.log('Called updateUser on a non-existent user', attrs, this.room.users);
             return;
         }
-        user.update(attrs);
-        this.emit('updateUser', user);
+        const changed = user.update(attrs);
+        this.emit('updateUser', user, changed);
     }
 
     on_openPrivateRoom({ attrs }) {
