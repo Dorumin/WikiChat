@@ -54,7 +54,7 @@ class User extends EventEmitter {
     update(attrs) {
         const check = this.checkDelete.bind(this, attrs);
         check('name', 'name');
-        check('since', 'since', (cur, old) => old && cur['0'] * 1000 == old.getTime());
+        check('since', 'since', (cur, old) => cur && cur['0'] * 1000 == old.getTime());
         check('statusMessage', 'status', (cur, old) => cur == old.message);
         check('statusState', 'status', (cur, old) => cur == old.state);
         check('isModerator', 'isModerator');
@@ -63,7 +63,7 @@ class User extends EventEmitter {
         check('groups', 'groups', (cur, old) => cur.join('|') == old.join('|'));
         check('avatarSrc', 'avatar', (cur, old) => this.parseAvatar(cur) == old);
         check('editCount', 'edits');
-        check('privateRoomId', 'privateRoom', (cur, old) => old && old.id == cur);
+        // check('privateRoomId', 'privateRoom', (cur, old) => old && old.id == cur);
         delete attrs.isPrivate;
         delete attrs.privateRoomId;
         delete attrs.active;
