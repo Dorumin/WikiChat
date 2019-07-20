@@ -89,7 +89,7 @@ class User extends EventEmitter {
                     this.avatar = this.parseAvatar(attrs.avatarSrc);
                     break;
                 default:
-                    console.log('Uncaught user attribute change');
+                    console.log('Uncaught user attribute change', prop, val);
             }
         }
 
