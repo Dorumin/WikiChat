@@ -17,6 +17,7 @@ const client = new Client({
 
 client.on('ready', () => {
     client.chats.get('dev').room.send('Connected successfully to all chats');
+    client.chats.get('dev').room.send(`Currently connected to: ${client.chats.array().map(chat => chat.name).join(', ')}`);
 });
 
 client.on('room.main', room => {
@@ -44,6 +45,8 @@ client.on('room.private', room => {
 Emitted when a message is received, in any room, after the bot has connected.
 #### message.private(message)
 Emitted when a message is received on a private room
+Does NOT fire when the message is sent before the room was opened, e.g. opened from another triggered by a message send
+You will need to use room.private to fetch the existing backlog messages
 
 ### join(user)
 Emitted when a user joins a main chat, not fired on private rooms
