@@ -113,6 +113,10 @@ class Collection extends Map {
         return this;
     }
 
+    sort(compareFunction = (x, y) => +(x > y) || +(x === y) - 1) {
+      return new this.constructor([...this.entries()].sort((a, b) => compareFunction(a[1], b[1], a[0], b[0])));
+    }
+
     copy() {
         return new this.constructor(this);
     }
