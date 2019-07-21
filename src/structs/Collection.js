@@ -122,10 +122,22 @@ class Collection extends Map {
         return this.getDelete(key);
     }
 
+    shiftEntry() {
+        const key = this.firstKey();
+        if (!key) return null;
+        return [key, this.getDelete(key)];
+    }
+
     pop() {
         const key = this.lastKey();
         if (!key) return null;
         return this.getDelete(key);
+    }
+
+    popEntry() {
+        const key = this.lastKey();
+        if (!key) return null;
+        return [key, this.getDelete(key)];
     }
 
     find(fn, dis) {
