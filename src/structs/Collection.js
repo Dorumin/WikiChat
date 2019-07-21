@@ -5,7 +5,7 @@ class Collection extends Map {
         // if (Array.isArray(iter)) {
         //     iter = Object.entries(iter);
         // }
-        super();
+        super(iter);
 
         Object.defineProperty(this, '_array', {
             value: null,
