@@ -111,7 +111,7 @@ class Collection extends Map {
     }
 
     lastKey() {
-        const keys = Array.from(this.keys());
+        const keys = this.keyArray();
         if (!keys.length) return null;
         return keys[keys.length - 1];
     }
