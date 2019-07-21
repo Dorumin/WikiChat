@@ -24,7 +24,11 @@ const client = new Client({
 
 client.on('ready', () => {
     client.chats.get('dev').room.send('Connected successfully to all chats');
-    client.chats.get('dev').room.send(`Currently connected to: ${client.chats.array().map(chat => chat.name).join(', ')}`);
+    client.chats.get('dev').room.send(`Currently connected to ${clients.chats.size} chats: ${
+        client.chats.array()
+            .map(chat => chat.name)
+            .join(', ')
+    }`);
 });
 
 client.on('room.main', room => {
