@@ -54,7 +54,7 @@ class User extends EventEmitter {
     update(attrs) {
         const check = this.checkDelete.bind(this, attrs);
         check('name', 'name');
-        check('since', 'since', (cur, old) => cur && cur['0'] * 1000 == old.getTime());
+        check('since', 'since', (cur, old) => !cur || cur['0'] * 1000 == old.getTime());
         check('statusMessage', 'status', (cur, old) => cur == old.message);
         check('statusState', 'status', (cur, old) => cur == old.state);
         check('isModerator', 'isModerator');
