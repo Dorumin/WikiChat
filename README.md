@@ -1,5 +1,12 @@
 # I'm bad at naming
-Library for interfacing with wikia's Special:Chat extension.
+Library for interfacing with wikia's Special:Chat extension. Better, faster, stronger than chatbot-rb.
+
+```
+yarn add wikichat
+```
+```
+npm install wikichat
+```
 
 
 ## Examples
@@ -55,12 +62,13 @@ Emitted when a user joins a main chat, not fired on private rooms
 Emitted when a user leaves chat, not fired on private rooms
 Fires 45 seconds after a `part` socket event, or 10 seconds after a `logout` socket event, to comply with Special:Chat
 
-### updateUser(user)
-Emitted when a user updates, either by leaving then joining chat, or updating their status
+### updateUser(user, attrs)
+Emitted when a user updates, either by leaving then joining chat, or updating their status.
+`attrs` is a plain object containing all the changed attributes. Might make it a collection someday.
 
-### room
+### room(room)
 Emitted when the bot joins a room
-### room.main
+### room.main(room)
 Emitted when the bot joins a main chat room
-### room.private
+### room.private(room)
 Emitted when the bot joins a private room
