@@ -52,6 +52,12 @@ class Collection extends Map {
         }
     }
 
+    getDelete(key) {
+        const val = this.get(key);
+        this.delete(key);
+        return val;
+    }
+
     on(event, fn) {
         this._emitter.on(event, fn);
     }
@@ -98,27 +104,28 @@ class Collection extends Map {
         return this.array().slice(start, end);
     }
 
+    firstKey() {
+        const key = this.keys().next().value;
+        if (!key) return null;
+        return key;
+    }
+
+    lastKey() {
+        const keys = Array.from(this.keys());
+        if (!keys.length) return null;
+        return keys[keys.length - 1];
+    }
+
     shift() {
-        const entry = this.entries().next().value;
-        if (!entry) return null;
-
-        const [key, value] = entry;
-
-        this.delete(key);
-
-        return value;
+        const key = this.firstKey();
+        if (!key) return null;
+        return this.getDelete(key);
     }
 
     pop() {
-        const keys = this.keyArray();
-        if (!keys.length) return null;
-
-        const key = keys[keys.length - 1],
-        val = this.get(key);
-
-        this.delete(key);
-
-        return val;
+        const key = this.lastKey();
+        if (!key) return null;
+        return this.getDelete(key);
     }
 
     find(fn, dis) {
