@@ -23,25 +23,30 @@ class Collection extends Map {
         return this.size;
     }
 
+    uncache() {
+        this._array = null;
+        this._keyArray = null;
+    }
+
     set(key, val) {
-      this._array = null;
-      return super.set(key, val);
+        this.uncache();
+        return super.set(key, val);
     }
   
     delete(key) {
-      this._array = null;
-      return super.delete(key);
+        this.uncache();
+        return super.delete(key);
     }
 
     setAll(obj) {
-        this._array = null;
+        this.uncache();
         for (const key in obj) {
             super.set(key, obj[key]);
         }
     }
 
     deleteAll(keys) {
-        this._array = null;
+        this.uncache();
         for (const i in keys) {
             super.delete(keys[i]);
         }
@@ -71,16 +76,49 @@ class Collection extends Map {
         return this._array || (this._array = Array.from(this.values()));
     }
 
-    first(count = 1) {
+    keyArray() {
+        return this._keyArray || (this._keyArray = Array.from(this.keys()));
+    }
+
+    first(count) {
+        if (!count) {
+            return this.values().next().value;
+        }
         return this.slice(0, count);
     }
 
-    last(count = 1) {
+    last(count) {
+        if (!count) {
+            return this.slice(-1)[0];
+        }
         return this.slice(-count);
     }
 
     slice(start, end) {
         return this.array().slice(start, end);
+    }
+
+    shift() {
+        const entry = this.entries().next().value;
+        if (!entry) return null;
+
+        const [key, value] = entry;
+
+        this.delete(key);
+
+        return value;
+    }
+
+    pop() {
+        const keys = this.keyArray();
+        if (!keys.length) return null;
+
+        const key = keys[keys.length - 1],
+        val = this.get(key);
+
+        this.delete(key);
+
+        return val;
     }
 
     find(fn, dis) {
