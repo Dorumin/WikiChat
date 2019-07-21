@@ -70,6 +70,7 @@ class User extends EventEmitter {
 
         const props = Object.getOwnPropertyNames(attrs);
         let i = props.length;
+
         if (i === 0) return;
         console.log(attrs);
 
@@ -88,6 +89,10 @@ class User extends EventEmitter {
                     console.log('Updated avatar');
                     this.avatar = this.parseAvatar(attrs.avatarSrc);
                     break;
+                case 'since':
+                    console.log('Updated since');
+                    console.log(val);
+                    console.log(this.since);
                 default:
                     console.log('Uncaught user attribute change', prop, val);
             }
