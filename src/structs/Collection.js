@@ -19,6 +19,10 @@ class Collection extends Map {
         });
     }
 
+    get length() {
+        return this.size;
+    }
+
     set(key, val) {
       this._array = null;
       return super.set(key, val);
