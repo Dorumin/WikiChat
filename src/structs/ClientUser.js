@@ -17,8 +17,33 @@ class ClientUser extends User {
                 NONCE: Date.now()
             }
         });
-        blockedChatUsers.forEach(name => this.blocks.set(name, new User(name, this._client)));
-        blockedByChatUsers.forEach(name => this.blockedBy.set(name, new User(name, this._client)));
+        blockedChatUsers.forEach(name => this.blocks.set(name, new User(name, this.client)));
+        blockedByChatUsers.forEach(name => this.blockedBy.set(name, new User(name, this.client)));
+    }
+
+    blockAllowPrivate(name, dir) {
+        return this.client.http.post(`https://community.fandom.com/index.php?action=ajax&rs=ChatAjax&method=blockOrBanChat`, {
+            query: {
+                action: 'ajax',
+                rs: 'ChatAjax',
+                method: 'blockOrBanChat'
+            },
+            body: {
+                userToBan: name,
+                token: this.client.session.token,
+                dir
+            }
+        });
+    }
+
+    blockPrivate(name) {
+        this.blocks.set(name, new User(name, this.client));
+        return this.blockAllowPrivate(name, 'add');
+    }
+
+    unblockPrivate(name) {
+        this.blocks.delete(name);
+        return this.blockAllowPrivate(name, 'add');
     }
 }
 
