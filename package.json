@@ -1,6 +1,6 @@
 {
   "name": "wikichat",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "A socket wrapper for Wikia's Special:Chat extension",
   "main": "./src/index.js",
   "scripts": {
