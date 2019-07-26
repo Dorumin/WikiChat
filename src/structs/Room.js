@@ -67,8 +67,8 @@ class Room extends EventEmitter {
         }
     }
 
-    onUpdateUser(user) {
-        this.emit('updateUser', user);
+    onUpdateUser(user, oldProps) {
+        this.emit('updateUser', user, oldProps);
     }
 
     onOpenPrivateRoom(room) {
