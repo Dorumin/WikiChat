@@ -1,4 +1,4 @@
-const EventEmitter = require('events').EventEmitter;
+const { EventEmitter } = require('events');
 const io = require('socket.io-client');
 const ChatUser = require('./ChatUser');
 const Message = require('./Message');
@@ -222,8 +222,8 @@ class Socket extends EventEmitter {
             console.log('Called updateUser on a non-existent user', attrs, this.room.users);
             return;
         }
-        const changed = user.update(attrs);
-        this.emit('updateUser', user, changed);
+        const oldProps = user.update(attrs);
+        this.emit('updateUser', user, oldProps);
     }
 
     on_openPrivateRoom({ attrs }) {
@@ -242,8 +242,6 @@ class Socket extends EventEmitter {
 
         this.emit('openPrivateRoom', room);
     }
-
-
 }
 
 module.exports = Socket;
