@@ -1,5 +1,5 @@
 # I'm bad at naming
-Library for interfacing with wikia's Special:Chat extension. Better, faster, stronger than chatbot-rb.
+Library for interfacing with wikia's Special:Chat extension. Better, faster, stronger than gekkou.
 
 ```
 yarn add wikichat
