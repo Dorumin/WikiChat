@@ -53,17 +53,19 @@ class User extends EventEmitter {
 
     update(attrs) {
         const check = this.checkDelete.bind(this, attrs);
-        check('name', 'name');
-        check('since', 'since', (cur, old) => !cur || cur['0'] * 1000 == old.getTime());
+        // check('name', 'name');
+        check('since', 'since', (cur, old) => !cur || old && cur['0'] * 1000 == old.getTime());
         check('statusMessage', 'status', (cur, old) => cur == old.message);
         check('statusState', 'status', (cur, old) => cur == old.state);
-        check('isModerator', 'isModerator');
-        check('canPromoteModerator', 'canPromoteModerator');
-        check('isStaff', 'isStaff');
-        check('groups', 'groups', (cur, old) => cur.join('|') == old.join('|'));
+        check('isModerator', 'mod');
+        // check('canPromoteModerator', 'admin');
+        check('isStaff', 'staff');
+        check('groups', 'groups', (cur, old) => cur.sort().join('|') == old.sort().join('|'));
         check('avatarSrc', 'avatar', (cur, old) => this.parseAvatar(cur) == old);
         check('editCount', 'edits');
         // check('privateRoomId', 'privateRoom', (cur, old) => old && old.id == cur);
+        delete attrs.name;
+        delete attrs.canPromoteModerator;
         delete attrs.isPrivate;
         delete attrs.privateRoomId;
         delete attrs.active;
@@ -72,33 +74,58 @@ class User extends EventEmitter {
         let i = props.length;
 
         if (i === 0) return;
-        console.log(attrs);
+
+        const oldProps = {};
 
         while (i--) {
             const prop = props[i],
             val = attrs[prop];
 
             switch (prop) {
+                case 'since':
+                    if (!val) {
+                        console.log('Since changed but value reverted to null');
+                        break;
+                    }
+                    oldProps.since = this.since;
+                    this.since = new Date(val[0] * 1000);
+                    break;
                 case 'statusMessage':
+                    oldProps.statusMessage = this.status.message;
                     this.status.message = val;
                     break;
                 case 'statusState':
+                    oldProps.statusState = this.status.state;
                     this.status.state = val;
                     break;
-                case 'avatarSrc':
-                    console.log('Updated avatar');
-                    this.avatar = this.parseAvatar(attrs.avatarSrc);
+                case 'isModerator':
+                    oldProps.mod = this.mod;
+                    this.mod = val;
                     break;
-                case 'since':
-                    console.log('Updated since');
-                    console.log(val);
-                    console.log(this.since);
+                case 'isStaff':
+                    oldProps.staff = this.staff;
+                    this.staff = val;
+                    break;
+                case 'groups':
+                    oldProps.groups = this.groups;
+                    this.groups = val.sort();
+                    break;
+                case 'avatarSrc':
+                    oldProps.avatar = this.avatar;
+                    this.avatar = this.parseAvatar(val);
+                    break;
+                case 'editCount':
+                    oldProps.edits = this.edits;
+                    this.edits = val;
+                    break;
                 default:
                     console.log('Uncaught user attribute change', prop, val);
             }
         }
 
-        this.emit('updateUser', this, attrs);
+        this.emit('updateUser', this, oldProps);
+
+        return oldProps;
     }
 }
 
