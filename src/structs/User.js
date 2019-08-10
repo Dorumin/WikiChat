@@ -1,5 +1,6 @@
 const EventEmitter = require('events').EventEmitter;
 const Collection = require('./Collection');
+const Status = require('./Status');
 
 class User extends EventEmitter {
     constructor(name, client) {
@@ -91,11 +92,13 @@ class User extends EventEmitter {
                     this.since = new Date(val[0] * 1000);
                     break;
                 case 'statusMessage':
-                    oldProps.statusMessage = this.status.message;
+                    oldProps.status = oldProps.status || new Status(null, this.status.state);
+                    oldProps.status.message = val;
                     this.status.message = val;
                     break;
                 case 'statusState':
-                    oldProps.statusState = this.status.state;
+                    oldProps.status = oldProps.status || new Status(this.status.message, null);
+                    oldProps.status.state = val;
                     this.status.state = val;
                     break;
                 case 'isModerator':
