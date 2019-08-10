@@ -22,7 +22,8 @@ class ClientUser extends User {
     }
 
     blockAllowPrivate(name, dir) {
-        return this.client.http.post(`https://community.fandom.com/index.php?action=ajax&rs=ChatAjax&method=blockOrBanChat`, {
+        return this.client.http.post(`https://doru.fandom.com/index.php`, {
+            form: true,
             query: {
                 action: 'ajax',
                 rs: 'ChatAjax',
