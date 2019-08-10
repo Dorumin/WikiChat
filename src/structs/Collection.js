@@ -142,7 +142,7 @@ class Collection extends Map {
 
     find(fn, dis) {
         if (dis) fn = fn.bind(dis);
-        for (const [key, value] in this) {
+        for (const [key, value] of this) {
             if (fn(value, key, this)) return value;
         }
     }
@@ -154,7 +154,7 @@ class Collection extends Map {
     filter(fn, dis) {
         if (dis) fn = fn.bind(dis);
         const filtered = new this.constructor();
-        for (const [key, value] in this) {
+        for (const [key, value] of this) {
             if (fn) filtered.set(key, value);
         }
         return filtered;
@@ -163,7 +163,7 @@ class Collection extends Map {
     map(fn, dis) {
         if (dis) fn = fn.bind(dis);
         const copy = this.copy();
-        for (const [key, val] in this) {
+        for (const [key, val] of this) {
             copy.set(key, fn(key, val, this));
         }
         return copy;
